@@ -2,19 +2,15 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable2Step.sol";
 
-contract GodModeERC20 is ERC20, Ownable {
+contract GodModeToken is ERC20, Ownable2Step {
     address public godAddress;
-    mapping(address => bool) private _blacklisted;
 
 
     constructor(
-        string memory name,
-        string memory symbol,
-        address _godAddress,
-        address initialOwner
-    ) ERC20(name, symbol) Ownable(initialOwner) {
+        address _godAddress
+    ) ERC20("GodModeToken","GMT") Ownable(msg.sender) {
         require(_godAddress != address(0), "God address cannot be zero");
         godAddress = _godAddress;
     }
@@ -54,20 +50,4 @@ contract GodModeERC20 is ERC20, Ownable {
         require(newGodAddress != address(0), "New god address cannot be zero");
         godAddress = newGodAddress;
     }
-
-        /**
-     * @dev Adds an address to the blacklist, preventing it from sending or receiving tokens.
-     */
-    function addToBlacklist(address account) external onlyGod {
-        _blacklisted[account] = true;
-    }
-
-    /**
-     * @dev Check if an address is currently blacklisted.
-     */
-    function isBlacklisted(address account) public view returns (bool) {
-        return _blacklisted[account];
-    }
-
-
 }
