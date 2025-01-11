@@ -4,6 +4,7 @@ pragma solidity ^0.8.22;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
+
 contract ShubhamNFT is ERC721 {
     uint256 private _nextTokenId;
     uint256 public tokenSupply = 0;
@@ -33,6 +34,9 @@ contract ShubhamNFT is ERC721 {
         _mint(to, tokenSupply);
         tokenSupply++;
     }
+
+}
+
 
     function withdraw() external isOwner {
         payable(_owner).transfer(address(this).balance);
